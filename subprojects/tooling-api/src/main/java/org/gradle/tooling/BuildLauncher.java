@@ -77,7 +77,7 @@ import java.util.EnumSet;
  *
  * @since 1.0-milestone-3
  */
-public interface BuildLauncher extends LongRunningOperation {
+public interface BuildLauncher extends ConfigurableLauncher {
     /**
      * {@inheritDoc}
      * @since 1.0
