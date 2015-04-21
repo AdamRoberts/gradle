@@ -113,8 +113,12 @@ public class ProviderConnection {
         if (buildProgressListener instanceof InternalFailSafeProgressListenersProvider) {
             ((InternalFailSafeProgressListenersProvider) buildProgressListener).setListenerFailSafeMode(true);
         }
-
-        BuildAction action = new BuildModelAction(startParameter, modelName, tasks != null, listenerConfiguration);
+        List<String> testIncludePatterns = providerParameters.getTestIncludePatterns(null);
+        TestConfiguration testConfiguration = null;
+        if (testIncludePatterns!=null) {
+            testConfiguration = new TestConfiguration(testIncludePatterns);
+        }
+        BuildAction action = new BuildModelAction(startParameter, modelName, tasks != null, listenerConfiguration, testConfiguration);
         Object out = run(action, cancellationToken, buildEventConsumer, providerParameters, params);
         if (buildProgressListener instanceof InternalFailSafeProgressListenersProvider) {
             rethrowListenerErrors((InternalFailSafeProgressListenersProvider) buildProgressListener);
