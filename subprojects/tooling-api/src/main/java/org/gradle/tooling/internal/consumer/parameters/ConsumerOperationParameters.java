@@ -61,6 +61,7 @@ public class ConsumerOperationParameters implements BuildOperationParametersVers
         private List<InternalLaunchable> launchables;
         private List<String> testIncludePatterns;
         private List<String> testExcludePatterns;
+        private boolean alwaysRunTests;
 
         private Builder() {
         }
@@ -165,6 +166,10 @@ public class ConsumerOperationParameters implements BuildOperationParametersVers
             this.cancellationToken = cancellationToken;
         }
 
+        public void setAlwaysRunTests(boolean alwaysRunTests) {
+            this.alwaysRunTests = alwaysRunTests;
+        }
+
         public ConsumerOperationParameters build() {
             // create the listener adapters right when the ConsumerOperationParameters are instantiated but no earlier,
             // this ensures that when multiple requests are issued that are built from the same builder, such requests do not share any state kept in the listener adapters
@@ -177,7 +182,7 @@ public class ConsumerOperationParameters implements BuildOperationParametersVers
             );
             BuildProgressListenerAdapter buildProgressListenerAdapter = new BuildProgressListenerAdapter(configuration);
             return new ConsumerOperationParameters(
-                parameters, stdout, stderr, colorOutput, stdin, javaHome, jvmArguments, arguments, tasks, launchables, testIncludePatterns, testExcludePatterns,
+                parameters, stdout, stderr, colorOutput, stdin, javaHome, jvmArguments, arguments, tasks, launchables, testIncludePatterns, testExcludePatterns, alwaysRunTests,
                     progressListenerAdapter, buildProgressListenerAdapter, cancellationToken);
         }
     }
@@ -200,6 +205,7 @@ public class ConsumerOperationParameters implements BuildOperationParametersVers
     private final List<InternalLaunchable> launchables;
     private final List<String> testIncludePatterns;
     private final List<String> testExcludePatterns;
+    private final boolean alwaysRunTests;
 
     private ConsumerOperationParameters(ConnectionParameters parameters,
                                         OutputStream stdout,
@@ -213,6 +219,7 @@ public class ConsumerOperationParameters implements BuildOperationParametersVers
                                         List<InternalLaunchable> launchables,
                                         List<String> testIncludePatterns,
                                         List<String> testExcludePatterns,
+                                        boolean alwaysRunTests,
                                         ProgressListenerAdapter progressListener,
                                         BuildProgressListenerAdapter buildProgressListener,
                                         CancellationToken cancellationToken) {
@@ -228,6 +235,7 @@ public class ConsumerOperationParameters implements BuildOperationParametersVers
         this.launchables = launchables;
         this.testIncludePatterns = testIncludePatterns;
         this.testExcludePatterns = testExcludePatterns;
+        this.alwaysRunTests = alwaysRunTests;
         this.progressListener = progressListener;
         this.buildProgressListener = buildProgressListener;
         this.cancellationToken = cancellationToken;
@@ -336,5 +344,9 @@ public class ConsumerOperationParameters implements BuildOperationParametersVers
 
     public List<String> getTestExcludePatterns() {
         return testExcludePatterns;
+    }
+
+    public boolean isAlwaysRunTests() {
+        return alwaysRunTests;
     }
 }
