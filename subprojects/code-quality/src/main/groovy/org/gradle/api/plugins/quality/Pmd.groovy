@@ -95,13 +95,13 @@ class Pmd extends SourceTask implements VerificationTask, Reporting<PmdReports> 
     boolean ignoreFailures
 
     /**
-	 * The rule priority threshold; rules with lower priority than they will not be used
+	 * The rule priority threshold; rules with lower priority than this will not be used
 	 *
 	 * Ignored if 0
 	 *
 	 * Example: minimumPriority = 3
 	 */
-	int minimumWarningLevel
+	int minimumPriority = 0
 
     /**
      * Whether or not to write PMD results to {@code System.out}.
@@ -140,8 +140,8 @@ class Pmd extends SourceTask implements VerificationTask, Reporting<PmdReports> 
                 setRuleSets(["java-basic"])
             }
         }
-        if (0 != getMinimumWarningLevel()) {
-            antPmdArgs["minimumPriority"] = getMinimumWarningLevel()
+        if (0 != getMinimumPriority()) {
+            antPmdArgs["minimumPriority"] = getMinimumPriority()
         }
 
         antBuilder.withClasspath(getPmdClasspath()).execute { a ->

@@ -89,7 +89,7 @@ class PmdPluginIntegrationTest extends WellBehavedPluginTest {
         badCode()
         buildFile << """
             pmd {
-                minimumWarningLevel = 2
+                minimumPriority = 2
             }
         """
 

@@ -56,7 +56,7 @@ class PmdPluginTest extends Specification {
         extension.ruleSetFiles.empty
         extension.reportsDir == project.file("build/reports/pmd")
         !extension.ignoreFailures
-        extension.minimumWarningLevel == 0
+        extension.minimumPriority == 0
     }
 
     def "configures pmd task for each source set"() {
@@ -109,7 +109,7 @@ class PmdPluginTest extends Specification {
             assert reports.xml.destination == project.file("build/reports/pmd/${sourceSet.name}.xml")
             assert reports.html.destination == project.file("build/reports/pmd/${sourceSet.name}.html")
             assert ignoreFailures == false
-            assert minimumWarningLevel == 0
+            assert minimumPriority == 0
         }
     }
 
@@ -126,7 +126,7 @@ class PmdPluginTest extends Specification {
         task.reports.xml.destination == project.file("build/reports/pmd/custom.xml")
         task.reports.html.destination == project.file("build/reports/pmd/custom.html")
         task.ignoreFailures == false
-        task.minimumWarningLevel == 0
+        task.minimumPriority == 0
     }
 
     def "adds pmd tasks to check lifecycle task"() {
@@ -180,7 +180,7 @@ class PmdPluginTest extends Specification {
             assert reports.xml.destination == project.file("pmd-reports/${sourceSet.name}.xml")
             assert reports.html.destination == project.file("pmd-reports/${sourceSet.name}.html")
             assert ignoreFailures == true
-            assert minimumWarningLevel == 3
+            assert minimumPriority == 3
         }
     }
 
@@ -206,7 +206,7 @@ class PmdPluginTest extends Specification {
         task.reports.html.destination == project.file("pmd-reports/custom.html")
         task.outputs.files.files == task.reports.enabled*.destination as Set
         task.ignoreFailures == true
-        task.minimumWarningLevel == 3
+        task.minimumPriority == 3
     }
 
 }
